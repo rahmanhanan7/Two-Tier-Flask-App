@@ -94,7 +94,7 @@ This document outlines the step-by-step process for deploying a 2-tier web appli
 
 2.  **Install Git, Docker, and Docker Compose:**
     ```bash
-    sudo apt install git docker.io docker-compose-v2 -y
+    sudo apt install git && curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh
     ```
 
 3.  **Start and Enable Docker:**
@@ -113,17 +113,29 @@ This document outlines the step-by-step process for deploying a 2-tier web appli
 
 ### **5. Step 3: Jenkins Installation and Setup**
 
-1.  **Install Java (OpenJDK 17):**
+1.  **Install Java (OpenJDK 21):**
     ```bash
-    sudo apt install openjdk-17-jdk -y
+    sudo apt install fontconfig openjdk-21-jre  
     ```
+    ```bash
+    java -version
+    ```
+    If the installation was successful, you should see an output similar to the following:
+
+    ```bash
+    openjdk version "21.0.9" 2025-10-21
+    OpenJDK Runtime Environment (build 21.0.9+10-Debian-1deb13u1)
+    OpenJDK 64-Bit Server VM (build 21.0.9+10-Debian-1deb13u1, mixed mode, sharing)
 
 2.  **Add Jenkins Repository and Install:**
     ```bash
-    curl -fsSL [https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key](https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key) | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
-    echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] [https://pkg.jenkins.io/debian-stable](https://pkg.jenkins.io/debian-stable) binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+    sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+    https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+    echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
+    https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+    /etc/apt/sources.list.d/jenkins.list > /dev/null
     sudo apt update
-    sudo apt install jenkins -y
+    sudo apt install jenkins
     ```
 
 3.  **Start and Enable Jenkins Service:**
